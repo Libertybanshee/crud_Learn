@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for joueur in joueurs %}
+        <h1>{{joueur.prenom}} {{joueur.nom}}</h1>
+        <a href="{{ path('joueur_focus', {'id' : joueur.id}) }}"><img style="width: 500px" src="{{joueur.src}}" alt=""></a>
+    {% endfor %}
+</body>
+</html>

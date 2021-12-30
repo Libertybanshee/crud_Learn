@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+	<body>
+
+		{# form(joueurForm) #}
+		{{ form_start(joueurForm) }}
+
+		{{ form_label(joueurForm.prenom, 'Prénom du joueur : ', {'label_attr' : {'class' : 'label'} } ) }}
+		{{ form_widget(joueurForm.prenom, {'attr' : {'placeholder' : ' Prénom '} } ) }}
+		
+		{{ form_label(joueurForm.nom, 'Nom du joueur : ', {'label_attr' : {'class' : 'label'} } ) }}
+		{{ form_widget(joueurForm.nom, {'attr' : {'placeholder' : ' Nom '} } ) }}
+		<br/><br/>
+		{{ form_label(joueurForm.club, 'Club : ', {'label_attr' : {'class' : 'label'} } ) }}
+		{{ form_widget(joueurForm.club, {'attr' : {'placeholder' : ' Club '} } ) }}
+		<br/><br/>
+		{{ form_label(joueurForm.age, 'Âge : ', {'label_attr' : {'class' : 'label'} } ) }}
+		{{ form_widget(joueurForm.age, { 'attr' : {'placeholder' : 'Age' }  } ) }}
+		<br/><br/>
+		{{ form_label(joueurForm.pays, 'Pays : ', {'label_attr' : {'class' : 'label'} } ) }}
+		{{ form_widget(joueurForm.pays, { 'attr' : {'placeholder' : 'Pays' }  } ) }}
+		<br/><br/>
+		{{ form_label(joueurForm.src, 'Photos : ', {'label_attr' : {'class' : 'label'} } ) }}
+		{{ form_widget(joueurForm.src, { 'attr' : {'placeholder' : 'Lien' }  } ) }}
+		<br/><br/>
+		{{ form_widget(joueurForm.submit, { 'attr' : {'label' : 'Enregistrer' }  } ) }}
+		<br/><br/>
+		{{ form_end(joueurForm) }}
+
+	</body>
+</html>
