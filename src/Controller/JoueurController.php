@@ -81,12 +81,24 @@ class JoueurController extends AbstractController
     /**
      * @Route("/delete/joueur/{id}", name="joueur_delete")
      */
-    public function joueurDelete($id, JoueurRepository  $joueurRepository, EntityManagerInterface $entityManagerInterface)
+    public function joueurDelete($id, JoueurRepository  $joueurRepository, EntityManagerInterface $entityManagerInterface, Request $request)
     {
         $joueur = $joueurRepository->find($id);
-        $entityManagerInterface->remove($joueur);
-        $entityManagerInterface->flush();
+
+        $joueurForm = $this->createForm(JoueurType::class, $joueur);
+
+        $joueurForm->handleRequest($request);
+
+        echo('ATTENTION : VOUS ALLEZ SUPPRIMER LE JOUEUR <br/><br/>');
+
+        if ($joueurForm->isSubmitted() && $joueurForm->isValid()) {
+            $entityManagerInterface->remove($joueur);
+            $entityManagerInterface->flush();
+
+            return $this->redirectToRoute("joueur_list");
+        } else {
             
-        return $this->redirectToRoute('joueur_list');
+            return $this->render('joueurUpdate.html.twig', ['joueurForm' => $joueurForm->createView()]);
+        }
     }
 }
