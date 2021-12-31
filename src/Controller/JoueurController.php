@@ -8,6 +8,7 @@ use App\Repository\JoueurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class JoueurController extends AbstractController
@@ -35,7 +36,7 @@ class JoueurController extends AbstractController
     /**
      * @Route("/add/joueur", name="joueur_add")
      */
-    public function joueurAdd(EntityManagerInterface $entityManagerInterface, Request $request)
+    public function joueurAdd(EntityManagerInterface $entityManagerInterface, Request $request, SluggerInterface $sluggerInterface)
     {
         $joueur = new Joueur();
 
@@ -44,6 +45,30 @@ class JoueurController extends AbstractController
         $joueurForm->handleRequest($request);
 
         if ($joueurForm->isSubmitted() && $joueurForm->isValid()) {
+
+            $mediaFile = $joueurForm->get('src')->getData();
+
+            if ($mediaFile) {
+                // On créé un nom unique avec le nom original de l'image pour éviter
+                // tout problème
+                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // on utilise slug sur le nom original de l'image pour avoir un nom valide
+                $safeFilename = $sluggerInterface->slug($originalFilename);
+                // on ajoute un id unique au nom de l'image
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension();
+
+
+                // On déplace le fichier dans le dossier public/media
+                // la destination du fichier est enregistré dans 'images_directory'
+                // qui est défini dans le fichier config\services.yaml
+                $mediaFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+
+                $joueur->setSrc($newFilename);
+            }
+
             $entityManagerInterface->persist($joueur);
             $entityManagerInterface->flush();
 
