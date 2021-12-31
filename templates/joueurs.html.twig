@@ -10,7 +10,7 @@
     <a href="{{ path('joueur_add') }}">Créer</a>
     {% for joueur in joueurs %}
         <h1>{{joueur.prenom}} {{joueur.nom}}</h1>
-        <a href="{{ path('joueur_focus', {'id' : joueur.id}) }}"><img style="width: 500px" src="../{{joueur.src}}" alt=""></a>
+        <a href="{{ path('joueur_focus', {'id' : joueur.id}) }}"><img style="width: 500px" src="{{ asset('media/' ~ joueur.src) }}" alt=""></a>
         <br>
         <a href="{{ path('joueur_focus', {'id' : joueur.id}) }}">Lire</a>
         <a href="{{ path('joueur_update', {'id' : joueur.id}) }}">Modifier</a>

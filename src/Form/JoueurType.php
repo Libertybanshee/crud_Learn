@@ -19,7 +19,7 @@ class JoueurType extends AbstractType
             ->add('club')
             ->add('age')
             ->add('pays')
-            ->add('src') //, FileType::class, ['mapped' => false])
+            ->add('src', FileType::class, ['mapped' => false])
             ->add('submit', SubmitType::class);
         ;
     }
