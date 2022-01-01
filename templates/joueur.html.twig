@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <img style="width: 500px" src="{{joueur.src}}" alt="">
+    <img style="width: 500px" src="{{ asset('media/' ~ joueur.src) }}" alt="">
     <h1>{{joueur.prenom}} {{joueur.nom}}</h1>
     <h2>Âge: {{joueur.age}}</h2>
     <h2>Club: {{joueur.club}}</h2>

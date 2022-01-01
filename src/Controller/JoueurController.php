@@ -83,7 +83,7 @@ class JoueurController extends AbstractController
     /**
      * @Route("/update/joueur/{id}", name="joueur_update")
      */
-    public function joueurUpdate($id, JoueurRepository  $joueurRepository, EntityManagerInterface $entityManagerInterface, Request $request)
+    public function joueurUpdate($id, JoueurRepository  $joueurRepository, EntityManagerInterface $entityManagerInterface, Request $request, SluggerInterface $sluggerInterface)
     {
         $joueur = $joueurRepository->find($id);
 
@@ -92,6 +92,30 @@ class JoueurController extends AbstractController
         $joueurForm->handleRequest($request);
 
         if ($joueurForm->isSubmitted() && $joueurForm->isValid()) {
+
+            $mediaFile = $joueurForm->get('src')->getData();
+
+            if ($mediaFile) {
+                // On créé un nom unique avec le nom original de l'image pour éviter
+                // tout problème
+                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // on utilise slug sur le nom original de l'image pour avoir un nom valide
+                $safeFilename = $sluggerInterface->slug($originalFilename);
+                // on ajoute un id unique au nom de l'image
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension();
+
+
+                // On déplace le fichier dans le dossier public/media
+                // la destination du fichier est enregistré dans 'images_directory'
+                // qui est défini dans le fichier config\services.yaml
+                $mediaFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+
+                $joueur->setSrc($newFilename);
+            }
+
             $entityManagerInterface->persist($joueur);
             $entityManagerInterface->flush();
 
