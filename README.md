@@ -3,4 +3,7 @@
 
 Point à apprendre: 
 
-Dans le formulaire, remplacer le button submit par enregistrer où envoyé 
+- dans le formulaire, remplacer le button submit par enregistrer où envoyé 
+- résoudre le média dans delete de CRUD 
+    -> solution proposé; créer une nouvelle entity puis similaire à JoueurType 
+- ajouter les matchs référence pour leur actions
